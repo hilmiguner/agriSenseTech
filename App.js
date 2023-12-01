@@ -1,13 +1,22 @@
-import { Button, StyleSheet, View } from "react-native";
-import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
-import MainScreen from "./screens/MainScreen";
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import MainScreen from './screens/MainScreen';
 
 
 function App() {
+  const MainScreenStack = createNativeStackNavigator();
   return(
-    <SafeAreaProvider>
-      <MainScreen/>
-    </SafeAreaProvider>
+    <NavigationContainer>
+      <MainScreenStack.Navigator>
+        <MainScreenStack.Screen
+          name='MainScreen'
+          component={MainScreen}
+          options={{
+            title: "Agri Sense Tech"
+          }}
+        />
+      </MainScreenStack.Navigator>
+    </NavigationContainer>
   );
 }
 

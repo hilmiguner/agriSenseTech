@@ -1,11 +1,9 @@
-import { View, StyleSheet, Button } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { View, StyleSheet } from "react-native";
 import SimpleButton from "../components/ui/SimpleButton";
 
 function MainScreen() {
-    const insets = useSafeAreaInsets();
     return(
-        <View style={[styles.rootContainer, {marginTop: insets.top}]}>
+        <View style={styles.rootContainer}>
             <SimpleButton title={"Controller"}/>
         </View>
     );
