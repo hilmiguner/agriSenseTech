@@ -1,8 +1,8 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
-function SimpleButton({title}) {
+function SimpleButton({title, onPress}) {
     return (
-        <Pressable style={styles.rootContainer}>
+        <Pressable style={styles.rootContainer} onPress={onPress}>
             <Text style={styles.title}>{title}</Text>
         </Pressable>
     );

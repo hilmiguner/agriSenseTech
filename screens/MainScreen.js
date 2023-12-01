@@ -1,10 +1,10 @@
 import { View, StyleSheet } from "react-native";
 import SimpleButton from "../components/ui/SimpleButton";
 
-function MainScreen() {
+function MainScreen({ navigation }) {
     return(
         <View style={styles.rootContainer}>
-            <SimpleButton title={"Controller"}/>
+            <SimpleButton title={"Controller"} onPress={() => navigation.navigate("RobotControlScreen")}/>
         </View>
     );
 }

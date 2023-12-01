@@ -1,6 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import MainScreen from './screens/MainScreen';
+import RobotControlScreen from './screens/RobotControlScreen';
 
 
 function App() {
@@ -13,6 +14,13 @@ function App() {
           component={MainScreen}
           options={{
             title: "Agri Sense Tech"
+          }}
+        />
+        <MainScreenStack.Screen
+          name='RobotControlScreen'
+          component={RobotControlScreen}
+          options={{
+            title: "Robot Control"
           }}
         />
       </MainScreenStack.Navigator>
