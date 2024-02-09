@@ -66,6 +66,7 @@ function VirtualJoystick({ padBackgroundColor, padBackgroundOpacity, padPointCol
     .onEnd((_) => {
         setX_Pos(centerPointPos);
         setY_Pos(centerPointPos);
+        console.log(`x force: 0, y force: 0`);
     });
     return(
         <View style={[styles.padBoundary, {
