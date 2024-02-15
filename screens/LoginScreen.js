@@ -1,6 +1,7 @@
 import { Pressable, Text, View } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import Icon from "react-native-vector-icons/MaterialIcons";
 
 function LoginScreen() {
     const safeAreaInsets = useSafeAreaInsets();
@@ -9,13 +10,13 @@ function LoginScreen() {
         <View style={{ flex: 1, justifyContent: "space-between", paddingTop: safeAreaInsets.top }}>
             <View>
                 <Text style={{ textAlign: "center", marginVertical: 32, fontSize: 24, fontWeight: "bold"}}>Login</Text>
-                <View style={{ backgroundColor: "red", marginHorizontal: 32, borderRadius: 24, padding: 12, marginBottom: 12 }}>
-                    {/* Icon */}
-                    <TextInput style={{ padding: 0 }} placeholder="Username"/>
+                <View style={{ flexDirection: "row", backgroundColor: "red", marginHorizontal: 32, borderRadius: 24, padding: 12, marginBottom: 12 }}>
+                    <Icon name={"person"} size={24} color={"black"}/>
+                    <TextInput style={{ marginLeft: 8, padding: 0 }} placeholder="Username"/>
                 </View>
-                <View style={{ backgroundColor: "red", marginHorizontal: 32, borderRadius: 24, padding: 12, marginBottom: 48 }}>
-                    {/* Icon */}
-                    <TextInput style={{ padding: 0 }} secureTextEntry={true} placeholder="Password"/>
+                <View style={{ flexDirection: "row", backgroundColor: "red", marginHorizontal: 32, borderRadius: 24, padding: 12, marginBottom: 48 }}>
+                    <Icon name={"lock"} size={24} color={"black"}/>
+                    <TextInput style={{ marginLeft: 8, padding: 0 }} secureTextEntry={true} placeholder="Password"/>
                 </View>
                 <Pressable style={{ backgroundColor: "red", marginHorizontal: 32, borderRadius: 24, padding: 12, marginBottom: 12 }}>
                     <Text style={{ textAlign: "center"}}>Login</Text>
