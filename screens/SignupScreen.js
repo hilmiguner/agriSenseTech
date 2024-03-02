@@ -1,10 +1,17 @@
-import { Keyboard, Pressable, Text, View } from "react-native";
+import { ActivityIndicator, Keyboard, Pressable, Text, View } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { ImageBackground } from "react-native";
+import { useEffect, useState } from "react";
+import auth from "../util/auth";
 
 function SignupScreen({ navigation }) {
+    const [email, setEmail] = useState();
+    const [password, setPassword] = useState();
+    const [userToken, setUserToken] = useState();
+    const [isAuthenticating, setIsAuthenticating] = useState(false);
+
     const safeAreaInsets = useSafeAreaInsets();
     return(
         <ImageBackground
@@ -16,18 +23,26 @@ function SignupScreen({ navigation }) {
                     <Text style={{ textAlign: "center", marginVertical: 32, fontSize: 24, fontWeight: "bold"}}>Sign Up</Text>
                     <View style={{ flexDirection: "row", backgroundColor: "#f1f1f1", marginHorizontal: 32, borderRadius: 24, padding: 12, marginBottom: 12 }}>
                         <Icon name={"email"} size={24} color={"black"}/>
-                        <TextInput style={{ marginLeft: 8, padding: 0, flex: 1,  }} placeholder="E-mail" keyboardType="email-address"/>
-                    </View>
-                    <View style={{ flexDirection: "row", backgroundColor: "#f1f1f1", marginHorizontal: 32, borderRadius: 24, padding: 12, marginBottom: 12 }}>
-                        <Icon name={"person"} size={24} color={"black"}/>
-                        <TextInput style={{ marginLeft: 8, padding: 0, flex: 1,  }} placeholder="Username"/>
+                        <TextInput style={{ marginLeft: 8, padding: 0, flex: 1,  }} placeholder="E-mail" keyboardType="email-address" autoCapitalize="none" onChangeText={(value) => setEmail(value)} editable={!isAuthenticating} selectTextOnFocus={!isAuthenticating}/>
                     </View>
                     <View style={{ flexDirection: "row", backgroundColor: "#f1f1f1", marginHorizontal: 32, borderRadius: 24, padding: 12, marginBottom: 48 }}>
                         <Icon name={"lock"} size={24} color={"black"}/>
-                        <TextInput style={{ marginLeft: 8, padding: 0, flex: 1, }} secureTextEntry={true} placeholder="Password"/>
+                        <TextInput style={{ marginLeft: 8, padding: 0, flex: 1, }} secureTextEntry={true} placeholder="Password" onChangeText={(value) => setPassword(value)} editable={!isAuthenticating} selectTextOnFocus={!isAuthenticating}/>
                     </View>
-                    <Pressable style={{ backgroundColor: "#f1f1f1", marginHorizontal: 32, borderRadius: 24, padding: 12, marginBottom: 12 }}>
-                        <Text style={{ textAlign: "center"}}>Sign Up</Text>
+                    <Pressable style={{ backgroundColor: "#f1f1f1", marginHorizontal: 32, borderRadius: 24, padding: 12, marginBottom: 12 }} onPress={() => {
+                        setIsAuthenticating(true);
+                        auth.createUser(email, password).then((value) => {
+                            setUserToken(value.data.idToken);
+                            setIsAuthenticating(false);
+                        });
+                    }}>
+                        {
+                            isAuthenticating
+                            ?
+                            <ActivityIndicator />
+                            :
+                            <Text style={{ textAlign: "center"}}>Sign Up</Text>
+                        }
                     </Pressable>
                 </View>
                 <View>
