@@ -4,29 +4,30 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { ImageBackground } from "react-native";
 
-function LoginScreen({ navigation }) {
+function SignupScreen({ navigation }) {
     const safeAreaInsets = useSafeAreaInsets();
     return(
         <ImageBackground
             source={require("../assets/images/background.jpg")}
             style={{ flex: 1, paddingTop: safeAreaInsets.top, paddingBottom: safeAreaInsets.bottom }}
         >
-            <Pressable style={{ flex: 1, justifyContent: "space-between" }} onPress={() => Keyboard.dismiss()}>
+            <Pressable style={{ flex: 1, justifyContent: "space-between" }} onPress={() => Keyboard.dismiss() }>
                 <View>
-                    <Text style={{ textAlign: "center", marginVertical: 32, fontSize: 24, fontWeight: "bold"}}>Login</Text>
+                    <Text style={{ textAlign: "center", marginVertical: 32, fontSize: 24, fontWeight: "bold"}}>Sign Up</Text>
+                    <View style={{ flexDirection: "row", backgroundColor: "#f1f1f1", marginHorizontal: 32, borderRadius: 24, padding: 12, marginBottom: 12 }}>
+                        <Icon name={"email"} size={24} color={"black"}/>
+                        <TextInput style={{ marginLeft: 8, padding: 0, flex: 1,  }} placeholder="E-mail" keyboardType="email-address"/>
+                    </View>
                     <View style={{ flexDirection: "row", backgroundColor: "#f1f1f1", marginHorizontal: 32, borderRadius: 24, padding: 12, marginBottom: 12 }}>
                         <Icon name={"person"} size={24} color={"black"}/>
                         <TextInput style={{ marginLeft: 8, padding: 0, flex: 1,  }} placeholder="Username"/>
                     </View>
                     <View style={{ flexDirection: "row", backgroundColor: "#f1f1f1", marginHorizontal: 32, borderRadius: 24, padding: 12, marginBottom: 48 }}>
                         <Icon name={"lock"} size={24} color={"black"}/>
-                        <TextInput style={{ marginLeft: 8, padding: 0, flex: 1,  }} secureTextEntry={true} placeholder="Password"/>
+                        <TextInput style={{ marginLeft: 8, padding: 0, flex: 1, }} secureTextEntry={true} placeholder="Password"/>
                     </View>
                     <Pressable style={{ backgroundColor: "#f1f1f1", marginHorizontal: 32, borderRadius: 24, padding: 12, marginBottom: 12 }}>
-                        <Text style={{ textAlign: "center"}}>Login</Text>
-                    </Pressable>
-                    <Pressable>
-                        <Text style={{ textAlign: "center"}}>Forgot your password?</Text>
+                        <Text style={{ textAlign: "center"}}>Sign Up</Text>
                     </Pressable>
                 </View>
                 <View>
@@ -46,9 +47,9 @@ function LoginScreen({ navigation }) {
                         </Pressable>
                     </View>
                     <View style={{ flexDirection: "row", justifyContent: "center", marginTop: 48 }}>
-                        <Text>Don't have account?</Text>
-                        <Pressable style={{ marginLeft: 8 }} onPress={() => { navigation.replace("SignupScreen") }}>
-                            <Text>Sign up</Text>
+                        <Text>Do you have an account?</Text>
+                        <Pressable style={{ marginLeft: 8 }} onPress={() => { navigation.replace("LoginScreen")}}>
+                            <Text>Login</Text>
                         </Pressable>
                     </View>
                 </View>
@@ -57,4 +58,4 @@ function LoginScreen({ navigation }) {
     );
 }
 
-export default LoginScreen;
+export default SignupScreen;

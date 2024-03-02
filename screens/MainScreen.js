@@ -6,6 +6,7 @@ function MainScreen({ navigation }) {
     return(
         <View style={styles.rootContainer}>
             <SimpleButton title={`Login Screen (${user})`} onPress={() => navigation.navigate("LoginScreen")}/>
+            <SimpleButton title={`Sign Up Screen (${user})`} onPress={() => navigation.navigate("SignupScreen")}/>
             <SimpleButton title={"Controller"} onPress={() => navigation.navigate("RobotControlScreen")}/>
         </View>
     );
