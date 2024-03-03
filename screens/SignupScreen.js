@@ -3,14 +3,16 @@ import { TextInput } from "react-native-gesture-handler";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { ImageBackground } from "react-native";
-import { useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import auth from "../util/auth";
+import { Context } from "../util/context";
 
 function SignupScreen({ navigation }) {
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
-    const [userToken, setUserToken] = useState();
     const [isAuthenticating, setIsAuthenticating] = useState(false);
+
+    const ctx = useContext(Context);
 
     const safeAreaInsets = useSafeAreaInsets();
     return(
@@ -23,17 +25,18 @@ function SignupScreen({ navigation }) {
                     <Text style={{ textAlign: "center", marginVertical: 32, fontSize: 24, fontWeight: "bold"}}>Sign Up</Text>
                     <View style={{ flexDirection: "row", backgroundColor: "#f1f1f1", marginHorizontal: 32, borderRadius: 24, padding: 12, marginBottom: 12 }}>
                         <Icon name={"email"} size={24} color={"black"}/>
-                        <TextInput style={{ marginLeft: 8, padding: 0, flex: 1,  }} placeholder="E-mail" keyboardType="email-address" autoCapitalize="none" onChangeText={(value) => setEmail(value)} editable={!isAuthenticating} selectTextOnFocus={!isAuthenticating}/>
+                        <TextInput style={{ marginLeft: 8, padding: 0, flex: 1,  }} placeholderTextColor={"#848383"} placeholder="E-mail" keyboardType="email-address" autoCapitalize="none" onChangeText={(value) => setEmail(value)} editable={!isAuthenticating} selectTextOnFocus={!isAuthenticating}/>
                     </View>
                     <View style={{ flexDirection: "row", backgroundColor: "#f1f1f1", marginHorizontal: 32, borderRadius: 24, padding: 12, marginBottom: 48 }}>
                         <Icon name={"lock"} size={24} color={"black"}/>
-                        <TextInput style={{ marginLeft: 8, padding: 0, flex: 1, }} secureTextEntry={true} placeholder="Password" onChangeText={(value) => setPassword(value)} editable={!isAuthenticating} selectTextOnFocus={!isAuthenticating}/>
+                        <TextInput style={{ marginLeft: 8, padding: 0, flex: 1, }} secureTextEntry={true} placeholderTextColor={"#848383"} placeholder="Password" onChangeText={(value) => setPassword(value)} editable={!isAuthenticating} selectTextOnFocus={!isAuthenticating}/>
                     </View>
                     <Pressable style={{ backgroundColor: "#f1f1f1", marginHorizontal: 32, borderRadius: 24, padding: 12, marginBottom: 12 }} disabled={isAuthenticating} onPress={() => {
                         setIsAuthenticating(true);
                         auth.createUser(email, password).then((value) => {
-                            setUserToken(value.data.idToken);
+                            ctx.authenticate(value.data.idToken);
                             setIsAuthenticating(false);
+                            navigation.replace("NewUserScreen", { userID: value.data.localId });
                         })
                         .catch((error) => {
                             Alert.alert(error.name, error.message);
@@ -45,7 +48,7 @@ function SignupScreen({ navigation }) {
                             ?
                             <ActivityIndicator />
                             :
-                            <Text style={{ textAlign: "center"}}>Sign Up</Text>
+                            <Text style={{ textAlign: "center", color: "black", fontWeight: "bold", fontSize: 20 }}>Sign Up</Text>
                         }
                     </Pressable>
                 </View>
@@ -68,7 +71,7 @@ function SignupScreen({ navigation }) {
                     <View style={{ flexDirection: "row", justifyContent: "center", marginTop: 48 }}>
                         <Text>Do you have an account?</Text>
                         <Pressable style={{ marginLeft: 8 }} onPress={() => { navigation.replace("LoginScreen")}}>
-                            <Text>Login</Text>
+                            <Text style={{ textDecorationLine: "underline", color: "white" }}>Login</Text>
                         </Pressable>
                     </View>
                 </View>

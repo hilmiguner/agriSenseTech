@@ -1,21 +1,11 @@
-import { View, StyleSheet } from "react-native";
-import SimpleButton from "../components/ui/SimpleButton";
+import { Text, View } from "react-native"
 
-function MainScreen({ navigation }) {
-    const user = "none";
+function MainScreen() {
     return(
-        <View style={styles.rootContainer}>
-            <SimpleButton title={`Login Screen (${user})`} onPress={() => navigation.navigate("LoginScreen")}/>
-            <SimpleButton title={`Sign Up Screen (${user})`} onPress={() => navigation.navigate("SignupScreen")}/>
-            <SimpleButton title={"Controller"} onPress={() => navigation.navigate("RobotControlScreen")}/>
+        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+            <Text style={{ fontSize: 24, color: "black" }}>Main Page !!</Text>
         </View>
     );
 }
 
 export default MainScreen;
-
-const styles = StyleSheet.create({
-    rootContainer: {
-      flex: 1,
-    },
-  });
