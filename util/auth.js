@@ -13,6 +13,19 @@ async function createUser(email, password) {
     return response;
 }
 
+async function login(email, password) {
+    const response = await axios.post(
+        `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${api_keys.firebaseAPI_KEY}`,
+        {
+            email: email,
+            password: password,
+            returnSecureToken: true,
+        }
+    );
+    return response;
+}
+
 export default {
     createUser,
+    login
 }

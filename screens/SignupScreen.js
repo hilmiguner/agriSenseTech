@@ -1,4 +1,4 @@
-import { ActivityIndicator, Keyboard, Pressable, Text, View } from "react-native";
+import { ActivityIndicator, Alert, Keyboard, Pressable, Text, View } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/MaterialIcons";
@@ -29,10 +29,14 @@ function SignupScreen({ navigation }) {
                         <Icon name={"lock"} size={24} color={"black"}/>
                         <TextInput style={{ marginLeft: 8, padding: 0, flex: 1, }} secureTextEntry={true} placeholder="Password" onChangeText={(value) => setPassword(value)} editable={!isAuthenticating} selectTextOnFocus={!isAuthenticating}/>
                     </View>
-                    <Pressable style={{ backgroundColor: "#f1f1f1", marginHorizontal: 32, borderRadius: 24, padding: 12, marginBottom: 12 }} onPress={() => {
+                    <Pressable style={{ backgroundColor: "#f1f1f1", marginHorizontal: 32, borderRadius: 24, padding: 12, marginBottom: 12 }} disabled={isAuthenticating} onPress={() => {
                         setIsAuthenticating(true);
                         auth.createUser(email, password).then((value) => {
                             setUserToken(value.data.idToken);
+                            setIsAuthenticating(false);
+                        })
+                        .catch((error) => {
+                            Alert.alert(error.name, error.message);
                             setIsAuthenticating(false);
                         });
                     }}>
