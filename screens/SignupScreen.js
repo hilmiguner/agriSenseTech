@@ -2,10 +2,10 @@ import { ActivityIndicator, Alert, Keyboard, Pressable, Text, View } from "react
 import { TextInput } from "react-native-gesture-handler";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import { ImageBackground } from "react-native";
 import { useContext, useState } from "react";
 import auth from "../util/auth";
 import { Context } from "../util/context";
+import FastImage from "react-native-fast-image";
 
 function SignupScreen({ navigation }) {
     const [email, setEmail] = useState();
@@ -16,9 +16,9 @@ function SignupScreen({ navigation }) {
 
     const safeAreaInsets = useSafeAreaInsets();
     return(
-        <ImageBackground
+        <FastImage
             source={require("../assets/images/background.jpg")}
-            style={{ flex: 1, paddingTop: safeAreaInsets.top, paddingBottom: safeAreaInsets.bottom }}
+            style={{ flex: 1, paddingTop: safeAreaInsets.top, paddingBottom: safeAreaInsets.bottom + 24 }}
         >
             <Pressable style={{ flex: 1, justifyContent: "space-between" }} onPress={() => Keyboard.dismiss() }>
                 <View>
@@ -76,7 +76,7 @@ function SignupScreen({ navigation }) {
                     </View>
                 </View>
             </Pressable>
-        </ImageBackground>
+        </FastImage>
     );
 }
 

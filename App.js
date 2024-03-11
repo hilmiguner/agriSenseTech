@@ -6,6 +6,7 @@ import ContextProvider from './util/context';
 import MainScreen from './screens/MainScreen';
 import SignupScreen from './screens/SignupScreen';
 import NewUserScreen from './screens/NewUserScreen';
+import preloadImages from './util/preloading';
 
 function MainStack() {
   const MainStack = createNativeStackNavigator();
@@ -42,6 +43,7 @@ function MainStack() {
 }
 
 function App() {
+  preloadImages();
   
   return(
       <GestureHandlerRootView style={{ flex: 1,}}>
