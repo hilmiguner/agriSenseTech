@@ -6,6 +6,7 @@ import { useContext, useState } from "react";
 import auth from "../util/auth";
 import { Context } from "../util/context";
 import FastImage from "react-native-fast-image";
+import database from "../util/database";
 
 function SignupScreen({ navigation }) {
     const [email, setEmail] = useState();
@@ -35,8 +36,10 @@ function SignupScreen({ navigation }) {
                         setIsAuthenticating(true);
                         auth.createUser(email, password).then((value) => {
                             ctx.authenticate(value.data.idToken);
-                            setIsAuthenticating(false);
-                            navigation.replace("NewUserScreen", { userID: value.data.localId });
+                            database.writeData(`https://agrisensetech-a9d50-default-rtdb.europe-west1.firebasedatabase.app/${value.data.localId}.json`, {name: ""}).then(() => {
+                                setIsAuthenticating(false);
+                                navigation.replace("NewUserScreen", { userID: value.data.localId });
+                            })
                         })
                         .catch((error) => {
                             Alert.alert(error.name, error.message);

@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { ActivityIndicator, Alert, ImageBackground, Pressable, Text, TextInput, View } from "react-native";
+import { ActivityIndicator, Alert, Pressable, Text, TextInput, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import database from "../util/database";
+import FastImage from "react-native-fast-image";
 
-function NewUserScreen({ route }) {
+function NewUserScreen({ navigation, route }) {
     const [name, setName] = useState();
     const [isLoading, setIsLoading] = useState(false);
 
@@ -12,7 +13,7 @@ function NewUserScreen({ route }) {
     const userID = route.params.userID;
     
     return(
-        <ImageBackground
+        <FastImage
             source={require("../assets/images/background.jpg")}
             style={{ flex: 1, paddingTop: safeAreaInsets.top, paddingBottom: safeAreaInsets.bottom, justifyContent: "center" }}
         >
@@ -28,6 +29,7 @@ function NewUserScreen({ route }) {
                     setIsLoading(true);
                     database.writeData(`https://agrisensetech-a9d50-default-rtdb.europe-west1.firebasedatabase.app/${userID}.json`, {name: name}).then((value) => {
                         setIsLoading(false);
+                        navigation.replace("MainScreen");
                     })
                     .catch((error) => {
                         Alert.alert(error.name, error.message);
@@ -43,7 +45,7 @@ function NewUserScreen({ route }) {
                     }
                 </Pressable>
             </View>
-        </ImageBackground>
+        </FastImage>
     );
 }
 
