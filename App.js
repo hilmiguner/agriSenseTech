@@ -1,15 +1,29 @@
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import LoginScreen from './screens/LoginScreen';
-import ContextProvider from './util/context';
+import ContextProvider, { Context } from './util/context';
 import MainScreen from './screens/MainScreen';
 import SignupScreen from './screens/SignupScreen';
 import NewUserScreen from './screens/NewUserScreen';
 import preloadImages from './util/preloading';
+import { useContext, useEffect } from 'react';
+import { Pressable, Text } from 'react-native';
 
 function MainStack() {
   const MainStack = createNativeStackNavigator();
+  
+  const ctx = useContext(Context);
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    if(ctx.isAuthenticated) {
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "MainScreen" }]
+      });
+    }
+  }, [ctx.isAuthenticated]);
 
   return(
     <MainStack.Navigator>
@@ -37,6 +51,19 @@ function MainStack() {
       <MainStack.Screen
         name="MainScreen"
         component={MainScreen}
+        options={{
+          headerRight: () => (
+            <Pressable onPress={() => { 
+              ctx.logout(); 
+              navigation.reset({
+                index: 0,
+                routes: [{ name: "LoginScreen" }]
+              });
+            }}>
+              <Text>Log Out</Text>
+            </Pressable>
+          )
+        }}
       />
     </MainStack.Navigator>
   );

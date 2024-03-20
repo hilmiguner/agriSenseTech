@@ -25,7 +25,18 @@ async function login(email, password) {
     return response;
 }
 
+async function getUserData(token) {
+    const response = await axios.post(
+        `https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${api_keys.firebaseAPI_KEY}`,
+        {
+            idToken: token,
+        }
+    );
+    return response;
+}
+
 export default {
     createUser,
-    login
+    login,
+    getUserData
 }
