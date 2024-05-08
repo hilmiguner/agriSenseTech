@@ -36,7 +36,7 @@ function SignupScreen({ navigation }) {
                         setIsAuthenticating(true);
                         auth.createUser(email, password).then((value) => {
                             ctx.authenticate(value.data.idToken);
-                            database.writeData(`https://agrisensetech-a9d50-default-rtdb.europe-west1.firebasedatabase.app/${value.data.localId}.json`, {name: ""}).then(() => {
+                            database.writeData(`${value.data.localId}.json`, {name: ""}).then(() => {
                                 setIsAuthenticating(false);
                                 navigation.replace("NewUserScreen", { userID: value.data.localId });
                             });

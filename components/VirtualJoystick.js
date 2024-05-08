@@ -61,7 +61,8 @@ function VirtualJoystick({ padBackgroundColor, padBackgroundOpacity, padPointCol
 
         setX_Pos(Math.floor(newX));
         setY_Pos(Math.floor(newY));
-        console.log(`x force: ${event.translationX}, y force: ${event.translationY}`);
+        // console.log(`x force: ${event.translationX}, y force: ${-event.translationY}`);
+        console.log(`x force: ${xPos-centerPointPos}, y force: ${-yPos+centerPointPos}`);
     })
     .onEnd((_) => {
         setX_Pos(centerPointPos);

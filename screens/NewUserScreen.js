@@ -27,9 +27,9 @@ function NewUserScreen({ navigation, route }) {
                 </View>
                 <Pressable style={{ backgroundColor: "#f1f1f1", marginHorizontal: 32, borderRadius: 24, padding: 12, marginBottom: 12 }} disabled={isLoading} onPress={() => {
                     setIsLoading(true);
-                    database.writeData(`https://agrisensetech-a9d50-default-rtdb.europe-west1.firebasedatabase.app/${userID}.json`, {name: name}).then((value) => {
+                    database.updateData(`${userID}.json`, {name: name}).then((value) => {
                         setIsLoading(false);
-                        navigation.replace("MainScreen");
+                        navigation.replace("BottomTabs");
                     })
                     .catch((error) => {
                         Alert.alert(error.name, error.message);

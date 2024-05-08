@@ -8,7 +8,9 @@ import SignupScreen from './screens/SignupScreen';
 import NewUserScreen from './screens/NewUserScreen';
 import preloadImages from './util/preloading';
 import { useContext, useEffect } from 'react';
-import { Pressable, Text } from 'react-native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import RobotControlScreen from './screens/RobotControlScreen';
+import CustomTabBar from './components/ui/CustomTabBar';
 
 function MainStack() {
   const MainStack = createNativeStackNavigator();
@@ -20,52 +22,47 @@ function MainStack() {
     if(ctx.isAuthenticated) {
       navigation.reset({
         index: 0,
-        routes: [{ name: "MainScreen" }]
+        routes: [{ name: "BottomTabs" }]
       });
     }
   }, [ctx.isAuthenticated]);
 
   return(
-    <MainStack.Navigator>
+    <MainStack.Navigator screenOptions={{
+      headerShown: false
+    }}>
       <MainStack.Screen
         name="LoginScreen"
         component={LoginScreen}
-        options={{
-          headerShown: false,
-        }}
       />
       <MainStack.Screen
         name="SignupScreen"
         component={SignupScreen}
-        options={{
-          headerShown: false,
-        }}
       />
       <MainStack.Screen
         name="NewUserScreen"
         component={NewUserScreen}
-        options={{
-          headerShown: false,
-        }}
       />
       <MainStack.Screen
-        name="MainScreen"
-        component={MainScreen}
-        options={{
-          headerRight: () => (
-            <Pressable onPress={() => { 
-              ctx.logout(); 
-              navigation.reset({
-                index: 0,
-                routes: [{ name: "LoginScreen" }]
-              });
-            }}>
-              <Text>Log Out</Text>
-            </Pressable>
-          )
-        }}
+        name="BottomTabs"
+        component={BottomTabs}
       />
     </MainStack.Navigator>
+  );
+}
+
+function BottomTabs() {
+  const Tab = createBottomTabNavigator();
+  return (
+    <Tab.Navigator tabBar={(props) => <CustomTabBar {...props}/>} screenOptions={{ headerShown: false }}>
+      <Tab.Screen 
+        name="MainScreen"
+        component={MainScreen}
+      />
+      <Tab.Screen 
+        name="RobotControlScreen"
+        component={RobotControlScreen} />
+    </Tab.Navigator>
   );
 }
 

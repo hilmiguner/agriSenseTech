@@ -36,7 +36,7 @@ function LoginScreen({ navigation }) {
                         auth.login(email, password).then((value) => {
                             ctx.authenticate(value.data.idToken);
                             setIsAuthenticating(false);
-                            navigation.replace("MainScreen");
+                            navigation.replace("BottomTabs");
                         })
                         .catch((error) => {
                             Alert.alert(error.name, error.message);
