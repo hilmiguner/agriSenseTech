@@ -6,6 +6,7 @@ import { useContext, useState } from "react";
 import auth from "../util/auth";
 import { Context } from "../util/context";
 import FastImage from "react-native-fast-image";
+import async_storage from "../util/async_storage";
 
 function LoginScreen({ navigation }) {
     const [email, setEmail] = useState();
@@ -34,6 +35,7 @@ function LoginScreen({ navigation }) {
                     <Pressable style={{ backgroundColor: "#f1f1f1", marginHorizontal: 32, borderRadius: 24, padding: 12, marginBottom: 12 }} disabled={isAuthenticating} onPress={() => {
                         setIsAuthenticating(true);
                         auth.login(email, password).then((value) => {
+                            async_storage.storeObjectData("authInfo", {email: email, password: password});
                             ctx.authenticate(value.data.idToken);
                             setIsAuthenticating(false);
                             navigation.replace("BottomTabs");

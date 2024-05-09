@@ -1,16 +1,20 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { ActivityIndicator, Alert, Pressable, Text, TextInput, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import database from "../util/database";
 import FastImage from "react-native-fast-image";
+import { Context } from "../util/context";
 
 function NewUserScreen({ navigation, route }) {
     const [name, setName] = useState();
     const [isLoading, setIsLoading] = useState(false);
 
+    const ctx = useContext(Context);
+
     const safeAreaInsets = useSafeAreaInsets();
 
     const userID = route.params.userID;
+    const idToken = route.params.idToken;
     
     return(
         <FastImage
@@ -29,7 +33,8 @@ function NewUserScreen({ navigation, route }) {
                     setIsLoading(true);
                     database.updateData(`${userID}.json`, {name: name}).then((value) => {
                         setIsLoading(false);
-                        navigation.replace("BottomTabs");
+                        // navigation.replace("BottomTabs");
+                        ctx.authenticate(idToken);
                     })
                     .catch((error) => {
                         Alert.alert(error.name, error.message);

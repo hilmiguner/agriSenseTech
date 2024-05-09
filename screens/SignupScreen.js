@@ -7,6 +7,7 @@ import auth from "../util/auth";
 import { Context } from "../util/context";
 import FastImage from "react-native-fast-image";
 import database from "../util/database";
+import async_storage from "../util/async_storage";
 
 function SignupScreen({ navigation }) {
     const [email, setEmail] = useState();
@@ -35,10 +36,10 @@ function SignupScreen({ navigation }) {
                     <Pressable style={{ backgroundColor: "#f1f1f1", marginHorizontal: 32, borderRadius: 24, padding: 12, marginBottom: 12 }} disabled={isAuthenticating} onPress={() => {
                         setIsAuthenticating(true);
                         auth.createUser(email, password).then((value) => {
-                            ctx.authenticate(value.data.idToken);
+                            async_storage.storeObjectData("authInfo", {email: email, password: password});
                             database.writeData(`${value.data.localId}.json`, {name: ""}).then(() => {
                                 setIsAuthenticating(false);
-                                navigation.replace("NewUserScreen", { userID: value.data.localId });
+                                navigation.replace("NewUserScreen", { userID: value.data.localId, idToken: value.data.idToken });
                             });
                             
                         })

@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import async_storage from "./async_storage";
+import auth from "./auth";
 
 export const Context = createContext({
     token: "",
@@ -15,9 +16,9 @@ function ContextProvider({ children }) {
     const [userData, setUserData] = useState();
 
     useEffect(() => {
-        async_storage.getStringData("token").then((value) => {
+        async_storage.getObjectData("authInfo").then((value) => {
             if(value) {
-                setAuthToken(value);
+                auth.login(value.email, value.password).then((value) => setAuthToken(value.data.idToken));
             }
         });
     }, []);
@@ -28,12 +29,11 @@ function ContextProvider({ children }) {
 
     function authenticate(token) {
         setAuthToken(token);
-        async_storage.storeStringData("token", token);
     }
 
     function logout() {
         setAuthToken(null);
-        async_storage.removeItem("token");
+        async_storage.removeItem("authInfo");
     }
 
     const value = {
