@@ -11,6 +11,8 @@ import { useContext, useEffect } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import RobotControlScreen from './screens/RobotControlScreen';
 import CustomTabBar from './components/ui/CustomTabBar';
+import SettingsScreen from './screens/SettingsScreen';
+import HelpScreen from './screens/HelpScreen';
 
 function MainStack() {
   const MainStack = createNativeStackNavigator();
@@ -51,6 +53,16 @@ function MainStack() {
   );
 }
 
+function SettingsStack() {
+  const Stack = createNativeStackNavigator();
+  return(
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name='SettingsScreen' component={SettingsScreen} />
+      <Stack.Screen name='HelpScreen' component={HelpScreen} />
+    </Stack.Navigator>
+  );
+}
+
 function BottomTabs() {
   const Tab = createBottomTabNavigator();
   return (
@@ -61,7 +73,12 @@ function BottomTabs() {
       />
       <Tab.Screen 
         name="RobotControlScreen"
-        component={RobotControlScreen} />
+        component={RobotControlScreen}
+      />
+      <Tab.Screen 
+        name="SettingsStack"
+        component={SettingsStack}
+      />
     </Tab.Navigator>
   );
 }

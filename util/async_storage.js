@@ -43,10 +43,19 @@ async function removeItem(key) {
     }
 };
 
+async function wipeData() {
+    try {
+        return await AsyncStorage.clear();
+    } catch (error) {
+        Alert.alert(error.name, error.message);
+    }
+};
+
 export default {
     storeStringData,
     storeObjectData,
     getStringData,
     getObjectData,
-    removeItem
+    removeItem,
+    wipeData
 };
