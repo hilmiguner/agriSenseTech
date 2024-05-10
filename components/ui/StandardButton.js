@@ -1,8 +1,8 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text } from "react-native";
 
-function StandardButton({ text, color, onPress }) {
+function StandardButton({ text, color, onPress, rootStyle }) {
     return(
-        <Pressable onPress={onPress} style={({pressed}) => [styles.root, pressed && { opacity : 0.75 }, { backgroundColor: color }]}>
+        <Pressable onPress={onPress} style={({pressed}) => [styles.root, pressed && { opacity : 0.75 }, { backgroundColor: color }, rootStyle]}>
             <Text style={styles.text}>{text}</Text>
         </Pressable>
     );
