@@ -16,8 +16,15 @@ async function getData(endpoint) {
     return response;
 }
 
+async function insertUserMessage(postData) {
+    const url = api_keys.restApiHost + "insert_user_message";
+    const response = await axios.post(url, postData);
+    return response;
+}
+
 export default {
     writeData,
     updateData,
     getData,
+    insertUserMessage,
 };

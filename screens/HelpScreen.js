@@ -1,15 +1,31 @@
-import { Keyboard, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import { Alert, Keyboard, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import theme from "../util/theme";
 import IconButton from "../components/ui/IconButton";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import StandardButton from "../components/ui/StandardButton";
+import { Context } from "../util/context";
+import auth from "../util/auth";
+import moment from "moment";
+import database from "../util/database";
 
 function HelpScreen({ navigation }) {
     const [title, setTitle] = useState();
     const [message, setMessage] = useState();
+    const [isSending, setIsSending] = useState(false);
+
+    const ctx = useContext(Context);
 
     const safeAreaInsets = useSafeAreaInsets();
+
+    const messageData = {
+        title: title,
+        message: message,
+        name: ctx.userData.name,
+        email: "",
+        datetime: "",
+        fb_local_id: ""
+    };
 
     return(
         <Pressable style={[styles.root, { paddingTop: safeAreaInsets.top }]} onPress={Keyboard.dismiss}>
@@ -34,7 +50,40 @@ function HelpScreen({ navigation }) {
                         onChangeText={(text) => setMessage(text)}
                     />
                 </View>
-                <StandardButton text={"Send"} color={theme.secondaryColor} rootStyle={{ alignSelf: "stretch", marginHorizontal: 12, marginTop: 24 }} onPress={null}/>
+                <StandardButton text={"Send"} color={theme.secondaryColor} rootStyle={{ alignSelf: "stretch", marginHorizontal: 12, marginTop: 24 }} disabled={isSending} onPress={() => {
+                    setIsSending(true);
+                    auth.getUserData(ctx.token).then((value => {
+                        messageData.fb_local_id = value.data.users[0].localId;
+                        messageData.datetime = moment().format('YYYY-MM-DD HH:mm:ss');
+                        messageData.email = value.data.users[0].email;
+                        database.insertUserMessage(messageData).then(respond => {
+                            if(respond.data.status == 200) {
+                                Alert.alert(
+                                    "Info", 
+                                    "You message has been successfully sent.", 
+                                    [
+                                        {
+                                            text: 'Ok',
+                                            onPress: () => navigation.replace("SettingsScreen")
+                                        }
+                                    ]
+                                );
+                            }
+                            else {
+                                Alert.alert(
+                                    "Error", 
+                                    "Somethins is wrong. Try again later.", 
+                                    [
+                                        {
+                                            text: 'Ok',
+                                            onPress: () => navigation.replace("SettingsScreen")
+                                        }
+                                    ]
+                                );
+                            }
+                        });
+                    }));
+                }}/>
             </ScrollView>
         </Pressable>
     );
