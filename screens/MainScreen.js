@@ -36,12 +36,30 @@ function MainScreen({ navigation }) {
         </View>
     );
     if(ctx.userData && !isLoading) {
-        let deviceContent;
+        let deviceContent = <ActivityIndicator color={theme.secondaryColor}/>;
         if(!ctx.userData.device) {
             deviceContent = (
                 <View style={{ margin: 8 }}>
-                    <Text style={[styles.text, { textAlign: "center", marginBottom: 12 }]}>There is no connected device.</Text>
+                    <Text style={{color: "white", fontSize: 20, textAlign: "center", marginBottom: 12 }}>There is no connected device.</Text>
                     <StandardButton text={"Connect Device"} color={theme.secondaryColor} onPress={null}/>
+                </View>
+            );
+        }
+        else {
+            deviceContent = (
+                <View style={{ margin: 8, flexDirection: "row" }}>
+                    <FastImage source={require("../assets/images/robot.png")} style={{ width: 100, height: 100 }}/>
+                    <View style={{ justifyContent: "center", paddingLeft: 24 }}>
+                        <View style={{ flexDirection: "row", marginBottom: 12 }}>
+                            <Text style={{ color: "white", fontSize: 20 }}>Serial: </Text>
+                            <Text style={{ color: "#b9b9b9", fontSize: 20 }}>{ctx.userData.device.serial}</Text>
+                        </View>
+                        <View>
+                            <StandardButton color={theme.secondaryColor} text={"Control Robot"} onPress={() => {
+                                navigation.navigate("RobotControlScreen", { serial: ctx.userData.device.serial });
+                            }}/>
+                        </View>
+                    </View>
                 </View>
             );
         }
@@ -61,7 +79,7 @@ function MainScreen({ navigation }) {
                 <View style={styles.headerContainer}>
                     <View style={{ flexDirection: "row" }}>
                         <FastImage source={require("../assets/images/miniLogo.png")} style={{  width: 25, height: 25, borderRadius: 12.5, marginRight: 12 }}/>
-                        <Text style={styles.text}>Hi {ctx.userData.name + (ctx.userData.name ? "!" : "")}</Text>
+                        <Text style={{ color: "white", fontSize: 20 }}>Hi {ctx.userData.name + (ctx.userData.name ? "!" : "")}</Text>
                     </View>
                     <View>
                         <IconButton color={theme.secondaryColor} icon={"log-out"} iconBundle={"Ionicons"} onPress={() => {
@@ -88,8 +106,7 @@ export default MainScreen;
 
 const styles = StyleSheet.create({
     text: { 
-        color: "white",
-        fontSize: 20 
+
     },
     textBold: { 
         color: "white",

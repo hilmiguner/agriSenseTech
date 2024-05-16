@@ -36,18 +36,27 @@ function MainStack() {
       <MainStack.Screen
         name="LoginScreen"
         component={LoginScreen}
+        options={{ orientation: "portrait" }}
       />
       <MainStack.Screen
         name="SignupScreen"
         component={SignupScreen}
+        options={{ orientation: "portrait" }}
       />
       <MainStack.Screen
         name="NewUserScreen"
         component={NewUserScreen}
+        options={{ orientation: "portrait" }}
       />
       <MainStack.Screen
         name="BottomTabs"
         component={BottomTabs}
+        options={{ orientation: "portrait" }}
+      />
+      <MainStack.Screen
+        name="RobotControlScreen"
+        component={RobotControlScreen}
+        options={{ orientation: "landscape" }}
       />
     </MainStack.Navigator>
   );
@@ -57,8 +66,16 @@ function SettingsStack() {
   const Stack = createNativeStackNavigator();
   return(
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name='SettingsScreen' component={SettingsScreen} />
-      <Stack.Screen name='HelpScreen' component={HelpScreen} />
+      <Stack.Screen
+        name='SettingsScreen' 
+        component={SettingsScreen}
+        options={{ orientation: "portrait" }}
+      />
+      <Stack.Screen
+        name='HelpScreen'
+        component={HelpScreen}
+        options={{ orientation: "portrait" }}
+      />
     </Stack.Navigator>
   );
 }
@@ -70,14 +87,12 @@ function BottomTabs() {
       <Tab.Screen 
         name="MainScreen"
         component={MainScreen}
-      />
-      <Tab.Screen 
-        name="RobotControlScreen"
-        component={RobotControlScreen}
+        options={{ orientation: "portrait" }}
       />
       <Tab.Screen 
         name="SettingsStack"
         component={SettingsStack}
+        options={{ orientation: "portrait" }}
       />
     </Tab.Navigator>
   );

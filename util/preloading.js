@@ -3,8 +3,8 @@ import FastImage from "react-native-fast-image";
 
 function preloadImages() {
     const images = [
-      require("../assets/images/background.jpg"),
       require("../assets/images/miniLogo.png"),
+      require("../assets/images/robot.png")
     ];
   
     const uris = images.map(image => ({

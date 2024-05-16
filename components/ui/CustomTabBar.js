@@ -53,7 +53,7 @@ function CustomTabBar({ state, descriptors, navigation }) {
 
                 const icon =( 
                     label == "MainScreen" ? <Ionicons name="home-outline" size={30} color={isFocused ? "white" : theme.secondaryColor}/> :
-                    label == "RobotControlScreen" ? <Ionicons name="game-controller-outline" size={30} color={isFocused ? "white" : theme.secondaryColor}/> :
+                    // label == "RobotControlScreen" ? <Ionicons name="game-controller-outline" size={30} color={isFocused ? "white" : theme.secondaryColor}/> :
                     label == "SettingsStack" ? <Ionicons name="settings-outline" size={30} color={isFocused ? "white" : theme.secondaryColor}/> : null
                 );
 

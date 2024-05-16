@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import async_storage from "./async_storage";
 import auth from "./auth";
+import { Alert } from "react-native";
 
 export const Context = createContext({
     token: "",
@@ -18,7 +19,7 @@ function ContextProvider({ children }) {
     useEffect(() => {
         async_storage.getObjectData("authInfo").then((value) => {
             if(value) {
-                auth.login(value.email, value.password).then((value) => setAuthToken(value.data.idToken));
+                auth.login(value.email, value.password).then((value) => setAuthToken(value.data.idToken)).catch((error) => Alert.alert("Error", "Couldn't login, try again."));
             }
         });
     }, []);
