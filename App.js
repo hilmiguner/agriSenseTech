@@ -56,7 +56,7 @@ function MainStack() {
       <MainStack.Screen
         name="RobotControlScreen"
         component={RobotControlScreen}
-        options={{ orientation: "landscape" }}
+        options={{ orientation: "landscape_right" }}
       />
     </MainStack.Navigator>
   );

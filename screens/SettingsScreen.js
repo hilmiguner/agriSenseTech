@@ -27,7 +27,7 @@ function SettingsScreen({ navigation }) {
                 <View style={{ flexDirection: "row", alignItems: "center", padding: 12 }}>
                     <Ionicons name="person-circle" size={72} color={theme.secondaryColor}/>
                     <View style={{ marginLeft: 24}}>
-                        <Text style={{ fontSize: 20, color: "white" }}>{ctx.userData?.name ? ctx.userData.name : "Unknown"}</Text>
+                        <Text style={{ fontSize: 20, color: "white" }}>{ctx.userData.database?.name ? ctx.userData.database.name : "Unknown"}</Text>
                         <Text style={{ fontSize: 18, color: "#b9b9b9", fontStyle: "italic" }}>{email}</Text>
                     </View>
                 </View>

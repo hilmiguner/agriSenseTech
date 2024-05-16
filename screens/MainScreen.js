@@ -8,6 +8,7 @@ import StandardButton from "../components/ui/StandardButton";
 import IconButton from "../components/ui/IconButton";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import theme from "../util/theme";
+import DeviceDetail from "../components/DeviceDetail";
 
 let screenWidth = Dimensions.get("screen").width;
 
@@ -21,8 +22,7 @@ function MainScreen({ navigation }) {
         auth.getUserData(ctx.token).then((value) => {
             let tempData = value.data.users[0];
             database.getData(`${tempData.localId}.json`).then((value) => {
-                tempData["name"] = value.data.name;
-                tempData["device"] = value.data.device;
+                tempData["database"] = value.data;
                 ctx.setUserCrediantials(tempData);
                 setIsLoading(false);
             });
@@ -37,7 +37,7 @@ function MainScreen({ navigation }) {
     );
     if(ctx.userData && !isLoading) {
         let deviceContent = <ActivityIndicator color={theme.secondaryColor}/>;
-        if(!ctx.userData.device) {
+        if(!ctx.userData.database.device) {
             deviceContent = (
                 <View style={{ margin: 8 }}>
                     <Text style={{color: "white", fontSize: 20, textAlign: "center", marginBottom: 12 }}>There is no connected device.</Text>
@@ -46,22 +46,7 @@ function MainScreen({ navigation }) {
             );
         }
         else {
-            deviceContent = (
-                <View style={{ margin: 8, flexDirection: "row" }}>
-                    <FastImage source={require("../assets/images/robot.png")} style={{ width: 100, height: 100 }}/>
-                    <View style={{ justifyContent: "center", paddingLeft: 24 }}>
-                        <View style={{ flexDirection: "row", marginBottom: 12 }}>
-                            <Text style={{ color: "white", fontSize: 20 }}>Serial: </Text>
-                            <Text style={{ color: "#b9b9b9", fontSize: 20 }}>{ctx.userData.device.serial}</Text>
-                        </View>
-                        <View>
-                            <StandardButton color={theme.secondaryColor} text={"Control Robot"} onPress={() => {
-                                navigation.navigate("RobotControlScreen", { serial: ctx.userData.device.serial });
-                            }}/>
-                        </View>
-                    </View>
-                </View>
-            );
+            deviceContent = <DeviceDetail />;
         }
         content = (
             <ScrollView 
@@ -79,7 +64,7 @@ function MainScreen({ navigation }) {
                 <View style={styles.headerContainer}>
                     <View style={{ flexDirection: "row" }}>
                         <FastImage source={require("../assets/images/miniLogo.png")} style={{  width: 25, height: 25, borderRadius: 12.5, marginRight: 12 }}/>
-                        <Text style={{ color: "white", fontSize: 20 }}>Hi {ctx.userData.name + (ctx.userData.name ? "!" : "")}</Text>
+                        <Text style={{ color: "white", fontSize: 20 }}>Hi {ctx.userData.database.name + (ctx.userData.name ? "!" : "")}</Text>
                     </View>
                     <View>
                         <IconButton color={theme.secondaryColor} icon={"log-out"} iconBundle={"Ionicons"} onPress={() => {
@@ -115,7 +100,6 @@ const styles = StyleSheet.create({
     },
     root: {
         flex: 1,
-        // alignItems: "center",
         backgroundColor: theme.primaryColor,
     },
     headerContainer: {

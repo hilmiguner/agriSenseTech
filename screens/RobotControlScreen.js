@@ -4,21 +4,20 @@ import IconButton from "../components/ui/IconButton";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import theme from "../util/theme";
 
-const screenWidth = Dimensions.get("screen").width;
+const screenSize = Dimensions.get("window");
 
 function RobotControlScreen({ navigation, route }) {
     const safeAreaInsets = useSafeAreaInsets();
-
     const robotSerial = route.params.serial;
     return(
         <View style={styles.rootContainer}>
             <View style={[ styles.headerBar, { 
                 paddingTop: safeAreaInsets.top, 
                 paddingRight: safeAreaInsets.right,
-                paddingBottom: safeAreaInsets.bottom,
+                // paddingBottom: safeAreaInsets.bottom,
                 paddingLeft: safeAreaInsets.left,
             }]}>
-                <View style={{ flexDirection: "row", paddingTop: 20, alignItems: "center" }}>
+                <View style={{ flexDirection: "row", paddingVertical: 20, alignItems: "center" }}>
                     <View style={{ flex: 1 }}>
                         <IconButton color={theme.secondaryColor} icon={"chevron-back"} iconBundle={"Ionicons"} size={32} onPress={navigation.goBack}/>
                     </View>
@@ -26,7 +25,12 @@ function RobotControlScreen({ navigation, route }) {
                     <View style={{ flex: 1 }}></View>
                 </View>
             </View>
-            <View style={[ styles.joystickContainer, { paddingBottom: safeAreaInsets.bottom, paddingLeft: safeAreaInsets.left, paddingRight: safeAreaInsets.right }]}>
+            <View style={[ styles.joystickContainer, { 
+                // paddingTop: safeAreaInsets.top, 
+                paddingRight: safeAreaInsets.right,
+                paddingBottom: safeAreaInsets.bottom,
+                paddingLeft: safeAreaInsets.left,
+            }]}>
                 <VirtualJoystick 
                     padBackgroundColor={"#f50713"} 
                     padBackgroundOpacity={0.6} 
@@ -63,7 +67,7 @@ const styles = StyleSheet.create({
         bottom: 0,
         flexDirection: "row",
         justifyContent: "space-between",
-        width: screenWidth,
-        margin: 12,
+        width: (screenSize.height > screenSize.width ? screenSize.height : screenSize.width) - 48,
+        marginBottom: 24,
     },
 });
