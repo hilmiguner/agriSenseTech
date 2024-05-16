@@ -9,6 +9,7 @@ import IconButton from "../components/ui/IconButton";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import theme from "../util/theme";
 import DeviceDetail from "../components/DeviceDetail";
+import WeedItem from "../components/ui/WeedItem";
 
 let screenWidth = Dimensions.get("screen").width;
 
@@ -23,19 +24,28 @@ function MainScreen({ navigation }) {
             let tempData = value.data.users[0];
             database.getData(`${tempData.localId}.json`).then((value) => {
                 tempData["database"] = value.data;
-                ctx.setUserCrediantials(tempData);
-                setIsLoading(false);
+                database.getWeeds({ fb_local_id: tempData.localId }).then((respond) => {
+                    if(Object.keys(respond.data.data).length != 0) {
+                        tempData["database"]["weeds"] = [];
+                        Object.keys(respond.data.data).forEach(id => {
+                            tempData["database"]["weeds"].push({ id: id, ...respond.data.data[id] })
+                        });
+                    }
+                    ctx.setUserCrediantials(tempData);
+                    setIsLoading(false);
+                });
             });
         });
     }, []);
-
 
     let content = (
         <View style={{ flex: 1, justifyContent: "center", paddingTop: safeAreaInsets.top, backgroundColor: theme.primaryColor }}>
             <ActivityIndicator />
         </View>
     );
+
     if(ctx.userData && !isLoading) {
+
         let deviceContent = <ActivityIndicator color={theme.secondaryColor}/>;
         if(!ctx.userData.database.device) {
             deviceContent = (
@@ -48,6 +58,25 @@ function MainScreen({ navigation }) {
         else {
             deviceContent = <DeviceDetail />;
         }
+
+        let weedContent = <ActivityIndicator color={theme.secondaryColor}/>;
+        if(!ctx.userData.database.weeds) {
+            weedContent = (
+                <View style={{ margin: 8 }}>
+                    <Text style={{color: "white", fontSize: 20, textAlign: "center", marginBottom: 12 }}>There is no weed on your field.</Text>
+                </View>
+            );
+        }
+        else {
+            weedContent = ctx.userData.database.weeds.map((data) => {
+                return (
+                    <View key={data.id} style={{ marginBottom: 12 }}>
+                        <WeedItem data={data}/>
+                    </View>
+                );
+            });
+        }
+        
         content = (
             <ScrollView 
                 style={[
@@ -76,10 +105,15 @@ function MainScreen({ navigation }) {
                         }} size={24}/>
                     </View>
                 </View>
-                <View style={styles.devicesContainer}>
+                <View style={styles.moduleContainer}>
                     <Text style={styles.textBold}>Your device</Text>
                     <View style={{ borderTopWidth: 1.5, borderColor: theme.secondaryColor, marginVertical: 8 }}></View>
                     { deviceContent }
+                </View>
+                <View style={styles.moduleContainer}>
+                    <Text style={styles.textBold}>Harmfull Weeds</Text>
+                    <View style={{ borderTopWidth: 1.5, borderColor: theme.secondaryColor, marginVertical: 8 }}></View>
+                    { weedContent }
                 </View>
             </ScrollView>
         );
@@ -90,9 +124,6 @@ function MainScreen({ navigation }) {
 export default MainScreen;
 
 const styles = StyleSheet.create({
-    text: { 
-
-    },
     textBold: { 
         color: "white",
         fontSize: 18,
@@ -108,10 +139,11 @@ const styles = StyleSheet.create({
         width: "100%",
         padding: 12,
     },
-    devicesContainer: {
+    moduleContainer: {
         backgroundColor: theme.primaryLightColor,
         borderRadius: 12,
         width: screenWidth-24,
         padding: 12,
+        marginBottom: 12,
     },
 });

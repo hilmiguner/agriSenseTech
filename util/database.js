@@ -22,9 +22,16 @@ async function insertUserMessage(postData) {
     return response;
 }
 
+async function getWeeds(postData) {
+    const url = api_keys.restApiHost + "get_weeds";
+    const response = await axios.post(url, postData);
+    return response;
+}
+
 export default {
     writeData,
     updateData,
     getData,
     insertUserMessage,
+    getWeeds
 };
