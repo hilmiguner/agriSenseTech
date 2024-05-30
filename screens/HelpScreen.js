@@ -21,7 +21,7 @@ function HelpScreen({ navigation }) {
     const messageData = {
         title: title,
         message: message,
-        name: ctx.userData.name,
+        name: ctx.userData.database.name,
         email: "",
         datetime: "",
         fb_local_id: ""
