@@ -28,10 +28,17 @@ async function getWeeds(postData) {
     return response;
 }
 
+async function deleteWeed(postData) {
+    const url = api_keys.restApiHost + "delete_weed";
+    const response = await axios.post(url, postData);
+    return response;
+}
+
 export default {
     writeData,
     updateData,
     getData,
     insertUserMessage,
-    getWeeds
+    getWeeds,
+    deleteWeed
 };

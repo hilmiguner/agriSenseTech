@@ -1,4 +1,4 @@
-import { Dimensions, Pressable, StyleSheet, Text, View } from "react-native";
+import { Alert, Dimensions, Pressable, StyleSheet, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import IconButton from "../components/ui/IconButton";
 import theme from "../util/theme";
@@ -6,6 +6,7 @@ import FastImage from "react-native-fast-image";
 import StandardButton from "../components/ui/StandardButton";
 import ImageView from "react-native-image-viewing";
 import { useState } from "react";
+import database from "../util/database";
 
 const screenSize = Dimensions.get("screen");
 
@@ -40,7 +41,37 @@ function WeedDetailScreen({ navigation, route }) {
                 </View>
                 <View style={styles.buttonContainer}>
                     <StandardButton color={theme.secondaryColor} text={"See on map"} rootStyle={{ flex: 1, marginLeft: 12, marginRight: 12 }}/>
-                    <StandardButton color={theme.errorRedColor} text={"DELETE"} rootStyle={{ flex: 1, margingLeft: 12, marginRight: 12 }}/>
+                    <StandardButton color={theme.errorRedColor} text={"DELETE"} rootStyle={{ flex: 1, margingLeft: 12, marginRight: 12 }} onPress={() => {
+                        database.deleteWeed({id: data.id, image_path: data.fb_local_id + "/" + data.image_path }).then((value) => {                        
+                            if (value.data.status == 200) {
+                                Alert.alert(
+                                    "Info", 
+                                    "Weed has been successfully deleted.", 
+                                    [
+                                        {
+                                            text: 'Ok',
+                                            onPress: () => navigation.reset({
+                                                index: 0,
+                                                routes: [{ name: "BottomTabs" }]
+                                            })
+                                        }
+                                    ]
+                                );
+                            }
+                            else {
+                                Alert.alert(
+                                    "Error", 
+                                    "Somethins is wrong. Try again later.", 
+                                    [
+                                        {
+                                            text: 'Ok',
+                                            onPress: () => navigation.goBack()
+                                        }
+                                    ]
+                                );
+                            }
+                        });
+                    }}/>
                 </View>
             </View>
         </View>
