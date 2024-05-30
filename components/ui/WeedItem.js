@@ -1,11 +1,14 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import FastImage from "react-native-fast-image";
 import theme from "../../util/theme";
+import { useNavigation } from "@react-navigation/native";
 
 function WeedItem({ data }) {
+    const navigation = useNavigation();
+
     const imageUri = `data:image/jpeg;base64,${data.image}`;
     return(
-        <Pressable style={({pressed}) => [styles.rootContainer, pressed && { opacity : 0.75 }]} onPress={null}> 
+        <Pressable style={({pressed}) => [styles.rootContainer, pressed && { opacity : 0.75 }]} onPress={() => navigation.navigate("WeedDetailScreen", {data: data})}> 
             <FastImage source={{ uri: imageUri }} style={styles.image}/>
             <View style={{ flex: 1, padding: 12 }}>
                 <View style={styles.textContainer}>

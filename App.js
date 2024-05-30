@@ -13,6 +13,7 @@ import RobotControlScreen from './screens/RobotControlScreen';
 import CustomTabBar from './components/ui/CustomTabBar';
 import SettingsScreen from './screens/SettingsScreen';
 import HelpScreen from './screens/HelpScreen';
+import WeedDetailScreen from './screens/WeedDetailScreen';
 
 function MainStack() {
   const MainStack = createNativeStackNavigator();
@@ -58,6 +59,11 @@ function MainStack() {
         component={RobotControlScreen}
         options={{ orientation: "landscape_right" }}
       />
+      <MainStack.Screen
+        name="WeedDetailScreen"
+        component={WeedDetailScreen}
+        options={{ orientation: "portrait" }}
+      />      
     </MainStack.Navigator>
   );
 }

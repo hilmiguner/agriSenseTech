@@ -44,7 +44,7 @@ function SettingsScreen({ navigation }) {
                           routes: [{ name: "LoginScreen" }]
                         });
                     }} />
-                    <SettingsListItem iconName={"log-out"} title={"Log out"} color={"#fb5c5c"} backgroundColor={theme.primaryLightColor} onPress={() => {
+                    <SettingsListItem iconName={"log-out"} title={"Log out"} color={theme.errorRedColor} backgroundColor={theme.primaryLightColor} onPress={() => {
                         async_storage.removeItem("authInfo");
                         ctx.logout(); 
                         navigation.reset({
