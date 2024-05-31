@@ -42,35 +42,50 @@ function WeedDetailScreen({ navigation, route }) {
                 <View style={styles.buttonContainer}>
                     <StandardButton color={theme.secondaryColor} text={"See on map"} rootStyle={{ flex: 1, marginLeft: 12, marginRight: 12 }}/>
                     <StandardButton color={theme.errorRedColor} text={"DELETE"} rootStyle={{ flex: 1, margingLeft: 12, marginRight: 12 }} onPress={() => {
-                        database.deleteWeed({id: data.id, image_path: data.fb_local_id + "/" + data.image_path }).then((value) => {                        
-                            if (value.data.status == 200) {
-                                Alert.alert(
-                                    "Info", 
-                                    "Weed has been successfully deleted.", 
-                                    [
-                                        {
-                                            text: 'Ok',
-                                            onPress: () => navigation.reset({
-                                                index: 0,
-                                                routes: [{ name: "BottomTabs" }]
-                                            })
-                                        }
-                                    ]
-                                );
-                            }
-                            else {
-                                Alert.alert(
-                                    "Error", 
-                                    "Somethins is wrong. Try again later.", 
-                                    [
-                                        {
-                                            text: 'Ok',
-                                            onPress: () => navigation.goBack()
-                                        }
-                                    ]
-                                );
-                            }
-                        });
+                        Alert.alert(
+                            "Warning", 
+                            "Are you sure you want to delete this information?", 
+                            [
+                                {
+                                    text: 'Yes',
+                                    onPress: () => {
+                                        database.deleteWeed({id: data.id, image_path: data.fb_local_id + "/" + data.image_path }).then((value) => {                        
+                                            if (value.data.status == 200) {
+                                                Alert.alert(
+                                                    "Info", 
+                                                    "Weed has been successfully deleted.", 
+                                                    [
+                                                        {
+                                                            text: 'Ok',
+                                                            onPress: () => navigation.reset({
+                                                                index: 0,
+                                                                routes: [{ name: "BottomTabs" }]
+                                                            })
+                                                        }
+                                                    ]
+                                                );
+                                            }
+                                            else {
+                                                Alert.alert(
+                                                    "Error", 
+                                                    "Somethins is wrong. Try again later.", 
+                                                    [
+                                                        {
+                                                            text: 'Ok',
+                                                            onPress: () => navigation.goBack()
+                                                        }
+                                                    ]
+                                                );
+                                            }
+                                        });
+                                    }
+                                },
+                                {
+                                    text: 'No',
+                                    onPress: null,
+                                }
+                            ]
+                        );
                     }}/>
                 </View>
             </View>
