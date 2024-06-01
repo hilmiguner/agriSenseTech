@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { ActivityIndicator, ScrollView, StyleSheet, Text, View, Dimensions} from "react-native"
+import { ActivityIndicator, ScrollView, StyleSheet, Text, View, Dimensions } from "react-native"
 import { Context } from "../util/context";
 import auth from "../util/auth";
 import database from "../util/database";

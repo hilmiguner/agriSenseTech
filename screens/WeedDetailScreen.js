@@ -1,4 +1,4 @@
-import { Alert, Dimensions, Pressable, StyleSheet, Text, View } from "react-native";
+import { Alert, Dimensions, PermissionsAndroid, Platform, Pressable, StyleSheet, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import IconButton from "../components/ui/IconButton";
 import theme from "../util/theme";
@@ -17,6 +17,25 @@ function WeedDetailScreen({ navigation, route }) {
     const data = route.params.data;
 
     const imageUri = `data:image/jpeg;base64,${data.image}`;
+    
+    async function requestLocationPermission() {
+        try {
+          const granted = await PermissionsAndroid.requestMultiple([
+            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+            PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
+          ]);
+          if (
+            granted['android.permission.ACCESS_FINE_LOCATION'] === PermissionsAndroid.RESULTS.GRANTED &&
+            granted['android.permission.ACCESS_COARSE_LOCATION'] === PermissionsAndroid.RESULTS.GRANTED
+          ) {
+            console.log('Konum izni verildi.');
+          } else {
+            console.log('Konum izni reddedildi.');
+          }
+        } catch (err) {
+          console.warn(err);
+        }
+    }
     
     return(
         <View style={[styles.root, { paddingTop: safeAreaInsets.top, paddingBottom: safeAreaInsets.bottom }]}>
@@ -40,7 +59,14 @@ function WeedDetailScreen({ navigation, route }) {
                     </View>
                 </View>
                 <View style={styles.buttonContainer}>
-                    <StandardButton color={theme.secondaryColor} text={"See on map"} rootStyle={{ flex: 1, marginLeft: 12, marginRight: 12 }}/>
+                    <StandardButton color={theme.secondaryColor} text={"See on map"} rootStyle={{ flex: 1, marginLeft: 12, marginRight: 12 }} onPress={() => {
+                        if(Platform.OS == "android") {
+                            requestLocationPermission().then((value) => {
+                                if(value) navigation.navigate("WeedMap");
+                            })
+                        }
+                        else if(Platform.OS == "ios") navigation.navigate("WeedMap", {data: data});
+                    }}/>
                     <StandardButton color={theme.errorRedColor} text={"DELETE"} rootStyle={{ flex: 1, margingLeft: 12, marginRight: 12 }} onPress={() => {
                         Alert.alert(
                             "Warning", 

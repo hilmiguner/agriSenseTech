@@ -14,6 +14,7 @@ import CustomTabBar from './components/ui/CustomTabBar';
 import SettingsScreen from './screens/SettingsScreen';
 import HelpScreen from './screens/HelpScreen';
 import WeedDetailScreen from './screens/WeedDetailScreen';
+import WeedMap from './screens/WeedMap';
 
 function MainStack() {
   const MainStack = createNativeStackNavigator();
@@ -62,6 +63,11 @@ function MainStack() {
       <MainStack.Screen
         name="WeedDetailScreen"
         component={WeedDetailScreen}
+        options={{ orientation: "portrait" }}
+      /> 
+      <MainStack.Screen
+        name="WeedMap"
+        component={WeedMap}
         options={{ orientation: "portrait" }}
       />      
     </MainStack.Navigator>

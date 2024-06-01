@@ -2,10 +2,13 @@
 
 #import <React/RCTBundleURLProvider.h>
 
+#import <GoogleMaps/GoogleMaps.h>
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  [GMSServices provideAPIKey:@"AIzaSyDR9fvdNoo4FV03D_c924rz6dsJqEszEyk"]; // add this line using the api key obtained from Google Console
   self.moduleName = @"agriSenseTech";
   // You can add your custom initial props in the dictionary below.
   // They will be passed down to the ViewController used by React Native.

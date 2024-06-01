@@ -16,10 +16,10 @@ function WeedItem({ data }) {
                 </View>
                 <View style={styles.line}></View>
                 <View style={styles.textContainer}>
-                    <Text style={styles.text}>Latitude: <Text style={styles.textBold}>{data.latitude}</Text></Text>
+                    <Text style={styles.text}>Latitude: <Text style={styles.textBold}>{parseFloat(data.latitude).toFixed(5)}</Text></Text>
                 </View>
                 <View style={styles.textContainer}>
-                    <Text style={styles.text}>Longitude: <Text style={styles.textBold}>{data.longitude}</Text></Text>
+                    <Text style={styles.text}>Longitude: <Text style={styles.textBold}>{parseFloat(data.longitude).toFixed(5)}</Text></Text>
                 </View>
             </View>
         </Pressable>
