@@ -15,6 +15,7 @@ import SettingsScreen from './screens/SettingsScreen';
 import HelpScreen from './screens/HelpScreen';
 import WeedDetailScreen from './screens/WeedDetailScreen';
 import WeedMap from './screens/WeedMap';
+import { StatusBar } from 'react-native';
 
 function MainStack() {
   const MainStack = createNativeStackNavigator();
@@ -117,6 +118,7 @@ function App() {
       <GestureHandlerRootView style={{ flex: 1,}}>
         <ContextProvider>
           <NavigationContainer>
+            <StatusBar barStyle={'light-content'}/>
             <MainStack/>
           </NavigationContainer>
         </ContextProvider>
