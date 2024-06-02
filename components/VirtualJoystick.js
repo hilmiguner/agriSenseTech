@@ -2,10 +2,12 @@ import { useState } from "react";
 import { Animated, StyleSheet, Text, View } from "react-native";
 import { GestureDetector, Gesture } from 'react-native-gesture-handler';
 
-function VirtualJoystick({ padBackgroundColor, padBackgroundOpacity, padPointColor, padOuterCircleSize, padInnerCircleSize }) {
+function VirtualJoystick({ padBackgroundColor, padBackgroundOpacity, padPointColor, padOuterCircleSize, padInnerCircleSize, onValueChange }) {
     const centerPointPos = (padOuterCircleSize-padInnerCircleSize)/2;
     const [xPos, setX_Pos] = useState(centerPointPos);
     const [yPos, setY_Pos] = useState(centerPointPos);
+
+    if(onValueChange != null) onValueChange((xPos-centerPointPos), (-yPos+centerPointPos));
 
     let bgColor = padBackgroundColor;
     if(padBackgroundOpacity != 1) {
