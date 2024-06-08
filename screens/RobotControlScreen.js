@@ -30,13 +30,31 @@ function RobotControlScreen({ navigation, route }) {
 
     function sendJoystickLeft(xValue, yValue) {
         if (ws && ws.readyState === WebSocket.OPEN) {
-            ws.send(JSON.stringify({"leftJoystick": {"xValue": xValue, "yValue": yValue}}));
+            ws.send(JSON.stringify({
+                "target_ip": "178.243.248.142",
+                "data": {
+                    "leftJoystick": {
+                        "xValue": xValue, 
+                        "yValue": yValue
+                    },
+                    "rightJoystick": null,
+                }
+            }));
         }
     }
 
     function sendJoystickRight(xValue, yValue) {
         if (ws && ws.readyState === WebSocket.OPEN) {
-            ws.send(JSON.stringify({"rightJoystick": {"xValue": xValue, "yValue": yValue}}));
+            ws.send(JSON.stringify({
+                "target_ip": "178.243.248.142",
+                "data": {
+                    "leftJoystick": null,
+                    "rightJoystick": {
+                        "xValue": xValue, 
+                        "yValue": yValue
+                    },
+                }
+            }));
         }
     }
 
